@@ -1,0 +1,676 @@
+create database hr;
+use hr;
+show tables;
+
+--select query:
+
+select * from employees;
+select * from departments;
+select * from jobs;
+select * from locations;
+select * from countries;
+
+select 
+employee_id,first_name,department_id,salary
+from employees;
+
+--
+select 
+employee_id,salary,salary+300,department_id
+from employees;
+
+select 
+employee_id,salary,salary-300,department_id
+from employees;
+
+select 
+employee_id,salary,salary/300,department_id
+from employees;
+
+select 
+employee_id,salary,salary*300,department_id
+from employees;
+
+--Null values:
+select 
+employee_id,salary,department_id,commission_pct
+from employees;
+
+--
+select
+employee_id,salary,salary+500 "new_salary"
+from employees;
+
+select
+employee_id,salary,salary+500 new_salary
+from employees;
+
+select
+employee_id,salary,salary+500 as new_salary
+from employees;
+--Distinct
+Includes null values
+avoids duplicate values
+
+select department_id
+from employees;
+
+select distinct department_id
+from employees;
+
+select 
+distinct department_id,employee_id
+from employees;
+
+--where
+
+select 
+employee_id,department_id,first_name
+from employees
+where department_id =90;
+
+select 
+employee_id,salary,job_id,hire_date,first_name
+from employees
+where first_name='Lex';
+
+select employee_id,hire_date
+from employees
+where hire_date='1993-01-13';
+
+--(=;<;>;<=;>=,<>;!=,like,between and,in,not)
+
+select 
+employee_id,department_id
+from employees
+where salary >=2600;
+
+select 
+employee_id,salary,first_name
+from employees
+where salary between 2600 and 4400;
+
+select 
+employee_id,department_id
+from employees
+where department_id in(90,60);
+
+select 
+employee_id,department_id,job_id
+from employees
+where job_id in('SA_REP','IT_PROG','ST_CLERK');
+
+-- Like
+ _ reprents single char
+% multiple char
+
+select 
+employee_id,first_name
+from employees
+where first_name like 'S%';
+
+select 
+employee_id,first_name
+from employees
+where first_name like '_e%';
+
+select 
+employee_id,first_name,job_id
+from employees
+where job_id like '%REP%';
+
+--is null
+select 
+employee_id,first_name,department_id
+from employees
+where department_id is null;
+
+select 
+employee_id,first_name,manager_id
+from employees
+where manager_id is not null;
+
+--AND;OR;NOT
+select 
+employee_id,last_name,salary,manager_id
+from employees
+where salary>4400
+and manager_id is not null;
+
+select 
+employee_id,last_name,salary,manager_id
+from employees
+where salary>4400
+or manager_id is not null;
+---------------------------------------------------
+--Order by 
+desc 
+asc
+default asc
+
+select 
+employee_id,first_name
+from employees 
+order by first_name;
+
+select 
+employee_id,first_name
+from employees 
+order by first_name desc;
+--multi column order:
+select 
+employee_id,first_name
+from employees 
+where department_id =90
+order by first_name, employee_id;
+
+--alise name order:
+select 
+employee_id,first_name as name
+from employees 
+order by name;
+
+--position order:
+select 
+employee_id,first_name,salary
+from employees 
+order by 3;
+---------------------------------------------------
+--Functions:
+concat()
+--Mysql or MariaDB(no dual table here)
+select 
+concat('my first','database class') col1;
+
+select 
+concat('my first','  ','database class') col1;
+
+select 
+concat(last_name,'  ',first_name) col1
+from employees;
+
+select 
+concat(last_name,' is a ',job_id) col1
+from employees;
+
+--Oracle
+select 'bhavani'
+from dual;
+
+select first_name||last_name name
+from employees;
+
+select first_name||'  '||last_name name
+from employees;
+
+select first_name||' is a '||job_id name_job
+from employees;
+
+select concat ('oracle','database') 
+from dual;
+----------------------------------------------
+--Replace:
+--MariaDB/MySQL
+select replace ('jack and jue','j','BL');
+
+--Oracle 
+select replace ('jack and jue','j','BL')
+from dual;
+----------------------------------------------
+--substring
+
+select 
+substring('hello world',1,5);
+
+select 
+substring('hello world',5,3);
+
+select 
+substring('hello world',5);
+
+select
+substring(first_name,1,5) name
+from employees;
+
+--oracle
+select substr('hello world',1,5) 
+from dual;
+
+--Structure of the table:
+desc employees;
+desc departments;
+desc jobs;
+desc locations;
+-------------------------------------------------
+-- Trim:
+
+select trim('    database   ');
+
+select trim('x' from'xxxxxxdatabasexxxxxx');
+
+select trim('d' from 'database');
+
+select trim('e' from 'database');
+-----------------------------------------------
+--format
+select format(1234567.789,2);
+
+--date
+--Mysql/MariaDB
+select curdate();
+select curdate()+0;
+
+--oracle
+select sysdate from dual;
+
+--datediff
+select datediff('2019-01-12','2018-01-12');
+
+--day()
+
+select 
+hire_date,day(hire_date) "day"
+from employees ;
+
+dd/mm/yy
+dd-mm-yy
+3rd july,2019
+
+--dayname
+
+select dayname(hire_date)
+from employees;
+
+select dayname('2019-06-22');
+select dayname(curdate());
+
+--dayofweek
+select dayofweek(curdate());
+
+
+--extract()
+select extract(day from curdate());
+select extract(month from curdate());
+select extract(year from curdate());
+select extract(HOUR from '2019-06-22 02:00:00');
+--------------------------------------------------
+--Math Functions()
+
+--abs()
+select abs(123),abs(-12345),abs(123.45);
+
+--ceil
+
+select ceil(1.9);
+
+select ceil(-1.7);
+
+select floor(1.5);
+
+select floor(-1.8)
+
+--mod
+select mod(100,2);
+
+select (100%2);
+
+--oracle
+select mod(100,2) from dual;
+----------------------------------------------
+--round()
+
+select round(22.57,1);
+
+select round(25.68,1);
+
+select round(28.67,1);
+
+select round(22.57,-1);
+
+select round(25.68,-1);
+
+select round(28.67,-1);
+---------------------------------------
+--truncate
+
+select truncate(22.56,1);
+select truncate(25.89,1);
+select truncate(28.78,1);
+
+select truncate(22.56,-1);
+select truncate(25.89,-1);
+select truncate(-28.78,-1);
+-----------------------------------------
+--CASE
+
+select 
+employee_id,first_name,salary,
+case job_id 
+	when 'SA_REP' then 1.1*salary
+	when 'ST_CLERK' then 1.2*salary
+else salary 
+end "revise_salary"
+from employees;
+---------------------------------------------
+--ifnull()
+
+select 
+employee_id,commission_pct,
+ifnull(commission_pct,0) comm
+from employees;
+
+--nullif()
+select length(first_name),length(last_name),
+nullif(length(first_name),length(last_name)) null_if
+from employees;
+
+--isnull()
+
+select isnull(1);
+
+select commission_pct,isnull(commission_pct)
+from employees;
+
+--coalesce
+
+select manager_id,commission_pct,employee_id,
+coalesce(manager_id,commission_pct,employee_id) col1
+from employees;
+-----------------------------------------------------
+--sum,min,max,count,avg
+
+select sum(salary) 
+from employees;
+
+select count(*) 
+from employees;
+
+select count(commission_pct) 
+from employees;
+
+select count( distinct department_id)
+from employees;
+
+select avg(commission_pct)
+from employees;
+
+select 
+department_id,avg(salary)
+from employees
+group by department_id;
+
+select 
+department_id,avg(salary),manager_id
+from employees
+group by department_id;
+
+select min(hire_date),max(hire_date)
+from employees;
+
+select min(first_name),max(first_name)
+from employees;
+
+--having clause:
+select job_id,round(avg(salary)) as avg_sal
+from employees
+group by job_id
+having avg(salary)>8300;
+
+select job_id,round(avg(salary)) as avg_sal
+from employees
+where job_id in('AC_MGR','SA_MAN','SA_REP')
+group by job_id
+having avg(salary)>8300
+order by job_id;
+
+select sum(salary)
+from employees
+where department_id in (20,60,90)
+having sum(salary)>4400;
+----------------------------------------------------
+--Joins:
+1.inner join (data matches in both tables)
+	a.natural join
+	b.using clause
+	c.on Clause
+	d.self join
+2.outer join
+	a.LOJ
+	b.ROJ
+	c.FOJ
+3.cross join
+4.nonequi join
+
+--NJ:
+select department_name,city
+from departments natural join locations;
+
+--Using Clause:
+select 
+employee_id,department_name
+from employees join departments 
+using(department_id);
+
+select 
+employee_id,department_name
+from employees join departments 
+using(department_id,manager_id);
+
+select 
+e.employee_id,d.department_name,e.manager_id
+from employees e join departments d
+using(department_id);
+
+--MySQL/MariaDB
+select 
+e.employee_id,d.department_name,e.department_id
+from employees e join departments d
+using(department_id);
+
+--Oracle:
+select 
+e.employee_id,d.department_name,department_id
+from employees e join departments d
+using(department_id);
+
+--on clause or equijoin with three-way join
+
+select 
+employee_id,job_id,department_name,city
+from employees e join departments d
+on (e.department_id=d.department_id)
+join locations l
+on(d.location_id=l.location_id); 
+
+--self join:
+
+select 
+e.first_name emp,m.first_name mgr
+from employees e join employees m
+on(e.manager_id=m.employee_id);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
